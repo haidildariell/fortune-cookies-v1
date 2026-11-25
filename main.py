@@ -9,8 +9,17 @@ import os
 
 FORTUNE = "You will meet a stranger today: it is you, retrained on your own chat logs."
 
+def validate(text):
+    """A fortune must read like a fortune: one tight line, no explanation."""
+    if len(text) > 200:
+        raise ValueError("fortune over 200 characters")
+    if text != text.strip() or "\n" in text:
+        raise ValueError("fortune must be a single clean line")
+    return text
+
+
 def main():
-    text = FORTUNE.strip()
+    text = validate(FORTUNE.strip())
     assert 1 <= len(text) <= 200, f"entry must be 1-200 chars, got {len(text)}"
     assert "\n" not in text, "entry must be a single line"
     os.makedirs("/output", exist_ok=True)
